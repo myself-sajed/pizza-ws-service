@@ -6,7 +6,7 @@ let broker: MessageBroker | null = null;
 
 export const createMessageBroker = (): MessageBroker => {
   console.log("connecting to kafka broker...");
-  // singleton
+  // singleton created out of factory
   if (!broker) {
     broker = new KafkaBroker("ws-service", [config.get("kafka.broker")]);
   }
