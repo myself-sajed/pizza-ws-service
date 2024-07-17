@@ -1,5 +1,6 @@
 import { Consumer, EachMessagePayload, Kafka } from "kafkajs";
 import { MessageBroker } from "../types/broker";
+import ws from "../socket";
 
 export class KafkaBroker implements MessageBroker {
   private consumer: Consumer;
@@ -39,6 +40,21 @@ export class KafkaBroker implements MessageBroker {
           topic,
           partition,
         });
+
+        switch (topic) {
+          case "order":
+            {
+              const order = JSON.parse(message.value.toString());
+              console.log("order received:", order);
+              const tenantId = order.data.tenantId;
+              console.log("tenantId:", tenantId);
+              ws.io.to(`Tenant-${tenantId}`).emit("new-order", order);
+            }
+            break;
+
+          default:
+            console.log("Topic listened:", topic);
+        }
       },
     });
   }

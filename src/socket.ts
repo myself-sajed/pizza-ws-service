@@ -11,7 +11,7 @@ io.on("connection", (socket) => {
   socket.on("join", (data) => {
     const roomId = `Tenant-${data.tenantId}`;
     socket.join(roomId);
-    socket.emit("joined", roomId);
+    socket.emit("join", roomId);
   });
 });
 
