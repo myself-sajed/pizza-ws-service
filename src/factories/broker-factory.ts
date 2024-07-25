@@ -8,7 +8,7 @@ export const createMessageBroker = (): MessageBroker => {
   console.log("connecting to kafka broker...");
   const brokerHost = config.get("kafka.broker")!;
   if (!broker) {
-    broker = new KafkaBroker("ws-service", [brokerHost as string]);
+    broker = new KafkaBroker("ws-service", brokerHost as string[]);
   }
   return broker;
 };
